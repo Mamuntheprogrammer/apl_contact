@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 import '../models/contact_model.dart';
 
 class SuggestUpdateForm extends StatefulWidget {
@@ -12,6 +13,7 @@ class SuggestUpdateForm extends StatefulWidget {
 
 class _SuggestUpdateFormState extends State<SuggestUpdateForm> {
   final _formKey = GlobalKey<FormState>();
+
   late TextEditingController _nameController;
   late TextEditingController _designationController;
   late TextEditingController _departmentController;
@@ -19,6 +21,7 @@ class _SuggestUpdateFormState extends State<SuggestUpdateForm> {
   late TextEditingController _emailController;
   late TextEditingController _phoneController;
   late TextEditingController _imageUrlController;
+  late TextEditingController _noteController;
 
   @override
   void initState() {
@@ -38,6 +41,7 @@ class _SuggestUpdateFormState extends State<SuggestUpdateForm> {
     _imageUrlController = TextEditingController(
       text: widget.contact.profileImage,
     );
+    _noteController = TextEditingController();
   }
 
   @override
@@ -49,46 +53,67 @@ class _SuggestUpdateFormState extends State<SuggestUpdateForm> {
     _emailController.dispose();
     _phoneController.dispose();
     _imageUrlController.dispose();
+    _noteController.dispose();
     super.dispose();
   }
 
-  void _submitSuggestion() {
+  void _submitSuggestion() async {
     if (_formKey.currentState!.validate()) {
-      // You can send this data to GitHub Issues API, Email, or Google Forms
-      final suggestion = {
-        "name": _nameController.text,
-        "designation": _designationController.text,
-        "department": _departmentController.text,
-        "ip": _ipController.text,
-        "email": _emailController.text,
-        "personal_number": _phoneController.text,
-        "profile_image": _imageUrlController.text,
-        "timestamp": DateTime.now().toIso8601String(),
-      }; // Show success dialog
-      showDialog(
-        context: context,
-        barrierDismissible: false, // Prevent closing by tapping outside
-        builder:
-            (dialogContext) => AlertDialog(
-              title: const Text('Submitted'),
-              content: const Text(
-                'Your suggestion has been submitted for approval.',
-              ),
-              actions: [
-                TextButton(
-                  onPressed: () {
-                    Navigator.of(dialogContext).pop(); // Close success dialog
-                    Navigator.of(context).pop(); // Close update form dialog
-                  },
-                  child: const Text('OK'),
-                ),
-              ],
-            ),
+      final formUrl = Uri.parse(
+        'https://docs.google.com/forms/d/e/1FAIpQLSf58vNHTc8SbSS00D69K7F_EO1YktyhXfIMdN4wT0yHDaXhwQ/formResponse',
       );
 
-      print(
-        'SUGGESTION: $suggestion',
-      ); // <-- replace with your submission logic
+      final response = await http.post(
+        formUrl,
+        body: {
+          'entry.2032671946': _nameController.text,
+          'entry.1410087173': _designationController.text,
+          'entry.1646783677': _departmentController.text,
+          'entry.1707133359': _ipController.text,
+          'entry.623302543': _emailController.text,
+          'entry.888287904': _phoneController.text,
+          'entry.1335000797': _imageUrlController.text,
+          'entry.1721299444': _noteController.text,
+        },
+      );
+
+      if (response.statusCode == 200 || response.statusCode == 302) {
+        showDialog(
+          context: context,
+          barrierDismissible: false,
+          builder:
+              (dialogContext) => AlertDialog(
+                title: const Text('Submitted'),
+                content: const Text('Your suggestion has been submitted.'),
+                actions: [
+                  TextButton(
+                    onPressed: () {
+                      Navigator.of(dialogContext).pop();
+                      Navigator.of(context).pop();
+                    },
+                    child: const Text('OK'),
+                  ),
+                ],
+              ),
+        );
+      } else {
+        showDialog(
+          context: context,
+          builder:
+              (context) => AlertDialog(
+                title: const Text('Submission Failed'),
+                content: Text('Status code: ${response.statusCode}'),
+                actions: [
+                  TextButton(
+                    onPressed: () => Navigator.of(context).pop(),
+                    child: const Text('OK'),
+                  ),
+                ],
+              ),
+        );
+      }
+
+      print('Submitted');
     }
   }
 
@@ -104,6 +129,7 @@ class _SuggestUpdateFormState extends State<SuggestUpdateForm> {
             children: [
               Text('Update for: ${widget.contact.name}'),
               const SizedBox(height: 16),
+
               TextFormField(
                 controller: _nameController,
                 decoration: const InputDecoration(
@@ -172,6 +198,16 @@ class _SuggestUpdateFormState extends State<SuggestUpdateForm> {
                   labelText: 'Profile Image URL',
                   border: OutlineInputBorder(),
                 ),
+              ),
+              const SizedBox(height: 12),
+
+              TextFormField(
+                controller: _noteController,
+                decoration: const InputDecoration(
+                  labelText: 'Note',
+                  border: OutlineInputBorder(),
+                ),
+                maxLines: 3,
               ),
             ],
           ),
