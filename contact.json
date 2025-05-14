@@ -1,0 +1,37 @@
+{
+  "contacts": [
+    {
+      "id": 1,
+      "department": "IT",
+      "name": "Md Abdullah Al Mamun",
+      "designation": "Software Engineer",
+      "ip": "192.168.0.101",
+      "personal_number": "+8801722000001",
+      "profile_image": "https://example.com/images/mamun.jpg",
+      "email": "mamun@example.com",
+      "isactive": true
+    },
+    {
+      "id": 2,
+      "department": "HR",
+      "name": "Faria Rahman",
+      "designation": "HR Manager",
+      "ip": "192.168.0.102",
+      "personal_number": "+8801722000002",
+      "profile_image": "https://example.com/images/faria.jpg",
+      "email": "faria@example.com",
+      "isactive": false
+    },
+    {
+      "id": 3,
+      "department": "Sales",
+      "name": "Tanvir Hossain",
+      "designation": "Sales Executive",
+      "ip": "192.168.0.103",
+      "personal_number": "+8801722000003",
+      "profile_image": "https://example.com/images/tanvir.jpg",
+      "email": "tanvir@example.com",
+      "isactive": true
+    }
+  ]
+}
