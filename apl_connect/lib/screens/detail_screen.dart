@@ -17,10 +17,51 @@ class DetailScreen extends StatelessWidget {
             expandedHeight: 200,
             pinned: true,
             flexibleSpace: FlexibleSpaceBar(
-              title: Text(contact.name),
+              title: Container(
+                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                decoration: BoxDecoration(
+                  color: Colors.black.withOpacity(0.5),
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                child: Text(
+                  contact.name,
+                  style: const TextStyle(color: Colors.white, fontSize: 16),
+                ),
+              ),
               background:
                   contact.profileImage.isNotEmpty
-                      ? Image.network(contact.profileImage, fit: BoxFit.cover)
+                      ? Stack(
+                        children: [
+                          Image.network(
+                            contact.profileImage,
+                            fit: BoxFit.cover,
+                            errorBuilder: (context, error, stackTrace) {
+                              return Container(
+                                color: Theme.of(
+                                  context,
+                                ).primaryColor.withOpacity(0.1),
+                                child: const Icon(
+                                  Icons.person,
+                                  size: 80,
+                                  color: Colors.grey,
+                                ),
+                              );
+                            },
+                          ),
+                          Container(
+                            decoration: BoxDecoration(
+                              gradient: LinearGradient(
+                                begin: Alignment.bottomCenter,
+                                end: Alignment.topCenter,
+                                colors: [
+                                  Colors.black.withOpacity(0.3),
+                                  Colors.transparent,
+                                ],
+                              ),
+                            ),
+                          ),
+                        ],
+                      )
                       : Container(
                         color: Theme.of(context).primaryColor.withOpacity(0.1),
                         child: const Icon(

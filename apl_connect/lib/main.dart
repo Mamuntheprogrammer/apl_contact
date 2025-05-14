@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'screens/home_screen.dart'; // Correct file as per your structure
+import 'screens/splash_screen.dart'; // Import the splash screen
+import 'screens/home_screen.dart'; // Keep your HomeScreen import
 
 void main() {
   runApp(const ContactApp());
@@ -13,8 +14,12 @@ class ContactApp extends StatelessWidget {
     return MaterialApp(
       title: 'Office Contact Directory',
       theme: ThemeData(primarySwatch: Colors.blueGrey, useMaterial3: true),
-      home: const HomeScreen(), // Starts at home_screen.dart
+      home: const SplashScreen(), // Show SplashScreen first
       debugShowCheckedModeBanner: false,
+      routes: {
+        '/home':
+            (context) => const HomeScreen(), // Add this route for redirection
+      },
     );
   }
 }
