@@ -7,7 +7,7 @@
       "designation": "Software Engineer",
       "ip": "192.168.0.101",
       "personal_number": "+8801722000001",
-      "profile_image": "https://example.com/images/mamun.jpg",
+      "profile_image": "https://picsum.photos/200/300",
       "email": "mamun@example.com",
       "isactive": true
     },
@@ -18,7 +18,7 @@
       "designation": "HR Manager",
       "ip": "192.168.0.102",
       "personal_number": "+8801722000002",
-      "profile_image": "https://example.com/images/faria.jpg",
+      "profile_image": "https://picsum.photos/200/300",
       "email": "faria@example.com",
       "isactive": false
     },
@@ -29,7 +29,7 @@
       "designation": "Sales Executive",
       "ip": "192.168.0.103",
       "personal_number": "+8801722000003",
-      "profile_image": "https://example.com/images/tanvir.jpg",
+      "profile_image": "https://picsum.photos/200/300",
       "email": "tanvir@example.com",
       "isactive": true
     }
