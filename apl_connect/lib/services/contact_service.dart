@@ -5,7 +5,7 @@ import '../models/contact_model.dart';
 
 class ContactService {
   static const String dataUrl =
-      'https://raw.githubusercontent.com/Mamuntheprogrammer/apl_contact/refs/heads/main/contact2.json';
+      'https://raw.githubusercontent.com/Mamuntheprogrammer/apl_contact/refs/heads/main/contact3.json';
 
   static Future<List<Contact>> fetchContacts() async {
     try {

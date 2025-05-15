@@ -12,6 +12,23 @@ df = pd.read_excel(excel_file, sheet_name=sheet_name, dtype=str)
 # === Replace NaN (empty cells) with empty string "" ===
 df = df.fillna('')
 
+# === Convert 'id' column values to int ===
+def convert_to_int(val):
+    try:
+        return int(val)
+    except:
+        return None  # or 0 if you prefer
+
+df['id'] = df['id'].apply(convert_to_int)
+
+# === Convert 'isactive' column values to bool ===
+def convert_to_bool(val):
+    if isinstance(val, str):
+        return val.strip().lower() in ['true', '1', 'yes']
+    return bool(val)
+
+df['isactive'] = df['isactive'].apply(convert_to_bool)
+
 # === Convert DataFrame rows to a list of dictionaries ===
 contacts_list = df.to_dict(orient='records')
 

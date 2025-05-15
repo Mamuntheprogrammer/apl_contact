@@ -21,18 +21,20 @@ class Contact {
     required this.isActive,
   });
 
-  // Create a Contact object from JSON
   factory Contact.fromJson(Map<String, dynamic> json) {
     return Contact(
-      id: json['id'],
-      department: json['department'],
-      name: json['name'],
-      designation: json['designation'],
-      ip: json['ip'],
-      personalNumber: json['personal_number'],
-      profileImage: json['profile_image'],
-      email: json['email'],
-      isActive: json['isactive'],
+      id: json['id'] ?? 0,
+      department: json['department'] ?? '',
+      name: json['name'] ?? '',
+      designation: json['designation'] ?? '',
+      ip: json['ip'] ?? '',
+      personalNumber: json['personal_number'] ?? '',
+      profileImage: json['profile_image'] ?? '',
+      email: json['email'] ?? '',
+      isActive:
+          json['isactive'] is bool
+              ? json['isactive']
+              : (json['isactive'].toString().toLowerCase() == 'true'),
     );
   }
 }

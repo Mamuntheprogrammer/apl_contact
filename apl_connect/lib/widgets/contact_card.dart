@@ -1,110 +1,86 @@
 import 'package:flutter/material.dart';
 import '../models/contact_model.dart';
 import '../screens/detail_screen.dart';
-import 'suggest_update_form.dart';
 
 class ContactCard extends StatelessWidget {
   final Contact contact;
-  final VoidCallback? onTap;
 
-  const ContactCard({Key? key, required this.contact, this.onTap})
-    : super(key: key);
+  const ContactCard({super.key, required this.contact});
+
   @override
   Widget build(BuildContext context) {
-    return Card(
-      margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-      elevation: 4,
-      clipBehavior: Clip.antiAlias,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
-      child: InkWell(
-        onTap: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (_) => DetailScreen(contact: contact)),
-          );
-        },
-        child: SizedBox(
-          height: 165, // Increased height to accommodate the button
-          child: Row(
-            children: [
-              // Image Section
-              SizedBox(
-                width: 120,
-                child:
-                    contact.profileImage.isNotEmpty
-                        ? Image.network(
-                          contact.profileImage,
-                          fit: BoxFit.cover,
-                          height: double.infinity,
-                        )
-                        : Container(
-                          color: Theme.of(
-                            context,
-                          ).primaryColor.withOpacity(0.1),
-                          child: const Center(
-                            child: Icon(
-                              Icons.person,
-                              size: 50,
-                              color: Colors.grey,
-                            ),
-                          ),
-                        ),
-              ),
+    final theme = Theme.of(context);
 
-              // Details Section
-              Expanded(
-                child: Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      const SizedBox(height: 4),
-                      Text(
-                        contact.name,
-                        style: const TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
-                        ),
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                      const SizedBox(height: 8),
-                      Text(
-                        contact.designation,
-                        style: TextStyle(fontSize: 14, color: Colors.grey[600]),
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                      const SizedBox(height: 4),
-                      Text(
-                        contact.department,
-                        style: TextStyle(fontSize: 14, color: Colors.grey[600]),
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                      const Spacer(),
-                      Align(
-                        alignment: Alignment.centerRight,
-                        child: TextButton.icon(
-                          icon: const Icon(Icons.edit_outlined, size: 16),
-                          label: const Text('Update'),
-                          style: TextButton.styleFrom(
-                            foregroundColor: Theme.of(context).primaryColor,
-                            padding: const EdgeInsets.symmetric(horizontal: 8),
-                          ),
-                          onPressed: () {
-                            showDialog(
-                              context: context,
-                              builder:
-                                  (_) => SuggestUpdateForm(contact: contact),
-                            );
-                          },
-                        ),
-                      ),
-                    ],
-                  ),
+    return InkWell(
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => DetailScreen(contact: contact),
+          ),
+        );
+      },
+      borderRadius: BorderRadius.circular(12), // Match the card's radius
+      child: Card(
+        margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 4),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(12),
+          side: BorderSide(color: Colors.grey.withOpacity(0.2), width: 1),
+        ),
+        elevation: 1,
+        shadowColor: Colors.grey.withOpacity(0.2),
+        child: Padding(
+          padding: const EdgeInsets.all(16),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              // Name in primary color with slight spacing
+              Text(
+                contact.name,
+                style: theme.textTheme.titleMedium?.copyWith(
+                  color: theme.primaryColor,
+                  fontWeight: FontWeight.w600,
                 ),
+              ),
+              const SizedBox(height: 6),
+
+              // Designation with icon
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Icon(Icons.work_outline, size: 16, color: Colors.grey[600]),
+                  const SizedBox(width: 6),
+                  Expanded(
+                    child: Text(
+                      contact.designation,
+                      style: theme.textTheme.bodyMedium?.copyWith(
+                        color: Colors.grey[700],
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 4),
+
+              // Department with icon
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Icon(
+                    Icons.business_outlined,
+                    size: 16,
+                    color: Colors.grey[600],
+                  ),
+                  const SizedBox(width: 6),
+                  Expanded(
+                    child: Text(
+                      contact.department,
+                      style: theme.textTheme.bodySmall?.copyWith(
+                        color: Colors.grey[600],
+                      ),
+                    ),
+                  ),
+                ],
               ),
             ],
           ),
