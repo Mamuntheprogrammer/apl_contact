@@ -1,9 +1,9 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 import '../models/contact_model.dart';
 
 class ContactService {
-  // Replace this with your actual raw GitHub file URL
   static const String dataUrl =
       'https://raw.githubusercontent.com/Mamuntheprogrammer/apl_contact/refs/heads/main/contact.json';
 
@@ -12,19 +12,34 @@ class ContactService {
       final response = await http.get(Uri.parse(dataUrl));
 
       if (response.statusCode == 200) {
-        // Decode the response into a Map
-        final Map<String, dynamic> jsonMap = json.decode(response.body);
-
-        // Access the 'contacts' key and get the list of contacts
+        final jsonMap = json.decode(response.body);
         final List<dynamic> jsonList = jsonMap['contacts'];
 
-        // Map the list into a List of Contact objects
+        // Save to local storage
+        final prefs = await SharedPreferences.getInstance();
+        await prefs.setString('cachedContacts', response.body);
+
         return jsonList.map((json) => Contact.fromJson(json)).toList();
       } else {
         throw Exception('Failed to load contacts');
       }
     } catch (e) {
-      throw Exception('Error fetching data: $e');
+      print('Error fetching data from network: $e');
+      // Try loading from local cache
+      return loadContactsFromCache();
+    }
+  }
+
+  static Future<List<Contact>> loadContactsFromCache() async {
+    final prefs = await SharedPreferences.getInstance();
+    final cachedData = prefs.getString('cachedContacts');
+
+    if (cachedData != null) {
+      final jsonMap = json.decode(cachedData);
+      final List<dynamic> jsonList = jsonMap['contacts'];
+      return jsonList.map((json) => Contact.fromJson(json)).toList();
+    } else {
+      throw Exception('No cached data available.');
     }
   }
 }

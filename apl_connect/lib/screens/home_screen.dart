@@ -67,7 +67,20 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Office Directory')),
+      appBar: AppBar(
+        title: const Text('Office Directory'),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.refresh),
+            tooltip: 'Fetch Latest',
+            onPressed: () async {
+              setState(() => isLoading = true);
+              await loadContacts(); // Re-fetch from network or fallback to cache
+            },
+          ),
+        ],
+      ),
+
       body: Padding(
         padding: const EdgeInsets.all(10),
         child: Column(
@@ -126,7 +139,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     items: [
                       const DropdownMenuItem(
                         value: null,
-                        child: Text('All IPs ↓'),
+                        child: Text('All IP-Phone ↓'),
                       ),
                       ...getIps()
                           .map(
