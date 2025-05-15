@@ -28,50 +28,39 @@ class DetailScreen extends StatelessWidget {
                   style: const TextStyle(color: Colors.white, fontSize: 16),
                 ),
               ),
-              background:
+              background: Stack(
+                children: [
+                  // Image or placeholder
                   contact.profileImage.isNotEmpty
-                      ? Stack(
-                        children: [
-                          Image.network(
-                            contact.profileImage,
-                            fit: BoxFit.cover,
-                            errorBuilder: (context, error, stackTrace) {
-                              return Container(
-                                color: Theme.of(
-                                  context,
-                                ).primaryColor.withOpacity(0.1),
-                                child: const Icon(
-                                  Icons.person,
-                                  size: 80,
-                                  color: Colors.grey,
-                                ),
-                              );
-                            },
-                          ),
-                          Container(
-                            decoration: BoxDecoration(
-                              gradient: LinearGradient(
-                                begin: Alignment.bottomCenter,
-                                end: Alignment.topCenter,
-                                colors: [
-                                  Colors.black.withOpacity(0.3),
-                                  Colors.transparent,
-                                ],
-                              ),
-                            ),
-                          ),
-                        ],
+                      ? Image.network(
+                        contact.profileImage,
+                        fit: BoxFit.cover,
+                        width: double.infinity,
+                        height: double.infinity,
+                        errorBuilder: (context, error, stackTrace) {
+                          return _buildPlaceholder(context);
+                        },
                       )
-                      : Container(
-                        color: Theme.of(context).primaryColor.withOpacity(0.1),
-                        child: const Icon(
-                          Icons.person,
-                          size: 80,
-                          color: Colors.grey,
-                        ),
+                      : _buildPlaceholder(context),
+
+                  // Gradient overlay
+                  Container(
+                    decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                        begin: Alignment.bottomCenter,
+                        end: Alignment.topCenter,
+                        colors: [
+                          Colors.black.withOpacity(0.3),
+                          Colors.transparent,
+                        ],
                       ),
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
+          // Rest of the SliverToBoxAdapter content remains the same...
           SliverToBoxAdapter(
             child: Padding(
               padding: const EdgeInsets.all(16),
@@ -262,6 +251,15 @@ class DetailScreen extends StatelessWidget {
           ),
         ],
       ),
+    );
+  }
+
+  Widget _buildPlaceholder(BuildContext context) {
+    return Container(
+      color: Theme.of(context).primaryColor.withOpacity(0.1),
+      width: double.infinity,
+      height: double.infinity,
+      child: const Icon(Icons.person, size: 80, color: Colors.grey),
     );
   }
 }
