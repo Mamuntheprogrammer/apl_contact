@@ -57,11 +57,23 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   List<String> getDepartments() {
-    return allContacts.map((c) => c.department).toSet().toList()..sort();
+    // Ensure null safety and proper sorting
+    return allContacts
+        .map((c) => c.department)
+        .where((d) => d != null && d.isNotEmpty)
+        .toSet()
+        .toList()
+      ..sort((a, b) => a.compareTo(b));
   }
 
   List<String> getIps() {
-    return allContacts.map((c) => c.ip).toSet().toList()..sort();
+    // Ensure null safety and proper sorting
+    return allContacts
+        .map((c) => c.ip)
+        .where((ip) => ip != null && ip.isNotEmpty)
+        .toSet()
+        .toList()
+      ..sort((a, b) => a.compareTo(b));
   }
 
   @override
@@ -75,12 +87,11 @@ class _HomeScreenState extends State<HomeScreen> {
             tooltip: 'Fetch Latest',
             onPressed: () async {
               setState(() => isLoading = true);
-              await loadContacts(); // Re-fetch from network or fallback to cache
+              await loadContacts();
             },
           ),
         ],
       ),
-
       body: Padding(
         padding: const EdgeInsets.all(10),
         child: Column(
@@ -100,9 +111,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 });
               },
             ),
-
             const SizedBox(height: 10),
-
             // Dropdown Filters Row
             Row(
               children: [
@@ -114,7 +123,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     items: [
                       const DropdownMenuItem(
                         value: null,
-                        child: Text('All Departments ↓'),
+                        child: Text('All Departments'),
                       ),
                       ...getDepartments()
                           .map(
@@ -139,7 +148,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     items: [
                       const DropdownMenuItem(
                         value: null,
-                        child: Text('All IP-Phone ↓'),
+                        child: Text('All IP-Phone'),
                       ),
                       ...getIps()
                           .map(
@@ -158,9 +167,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               ],
             ),
-
             const SizedBox(height: 10),
-
             // Contact List
             Expanded(
               child:
