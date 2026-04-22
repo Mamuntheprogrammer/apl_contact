@@ -6810,17 +6810,6 @@
       "isactive": true
     },
     {
-      "id": 260,
-      "department": "IT",
-      "name": "Ahadul",
-      "designation": "",
-      "ip": "1426",
-      "personal_number": "+8801959923340",
-      "profile_image": "",
-      "email": "",
-      "isactive": true
-    },
-    {
       "id": 261,
       "department": "IT",
       "name": "Saied",
@@ -6854,34 +6843,12 @@
       "isactive": true
     },
     {
-      "id": 264,
-      "department": "IT",
-      "name": "Mostafij",
-      "designation": "",
-      "ip": "7777",
-      "personal_number": "+8801959920146",
-      "profile_image": "",
-      "email": "",
-      "isactive": true
-    },
-    {
       "id": 265,
       "department": "IT",
       "name": "Shahria",
       "designation": "",
       "ip": "7777",
       "personal_number": "+8801959923230",
-      "profile_image": "",
-      "email": "",
-      "isactive": true
-    },
-    {
-      "id": 266,
-      "department": "IT",
-      "name": "Al Mamun",
-      "designation": "",
-      "ip": "7777",
-      "personal_number": "+8801959923349",
       "profile_image": "",
       "email": "",
       "isactive": true
