@@ -2900,7 +2900,7 @@
       "designation": "",
       "ip": "7778",
       "personal_number": "+8801959920146",
-      "profile_image": "",
+      "profile_image": "https://lh3.googleusercontent.com/a/ACg8ocLbPtERnklkaLFz6jLaIzBkNfNobYL5G8jR_-5kQuNNVx4QEYkqSg=s288-c-no",
       "email": "",
       "isactive": true
     },
@@ -7918,6 +7918,17 @@
       "personal_number": "",
       "profile_image": "",
       "email": "",
+      "isactive": true
+    },
+     {
+      "id": 360,
+      "department": "IT",
+      "name": "Ahadul Islam",
+      "designation": "Pabna --> Executive (G-II)",
+      "ip": "",
+      "personal_number": "+8801959923340",
+      "profile_image": "",
+      "email": "ahadul.it@aristopharma.com",
       "isactive": true
     }
   ]
